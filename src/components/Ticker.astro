@@ -1,0 +1,10 @@
+---
+import { profile } from '../data/profile';
+const items = profile.ticker;
+---
+<div class="ticker" aria-label="Availability and focus">
+  <div class="ticker__track">
+    {items.map((t) => <span class="ticker__item">{t}</span>)}
+    {items.map((t) => <span class="ticker__item ticker__dup" aria-hidden="true">{t}</span>)}
+  </div>
+</div>

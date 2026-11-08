@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile } from '../data/profile';
+const endpoint = `${profile.site}/api/mcp`;
+---
+<Base title="Connect your AI agent — Wafa Abbassi" description="This portfolio is agent-ready: add it as an MCP connector in Claude, ChatGPT, Cursor or any MCP client to read the resume and case studies and check availability.">
+  <section class="article" style="border-top:0">
+    <div class="container">
+      <header>
+        <p class="context">Agent-ready · MCP</p>
+        <h1>This site speaks MCP.</h1>
+        <p class="summary">Recruiters increasingly ask an AI assistant to evaluate candidates. This portfolio publishes a public Model Context Protocol endpoint so your assistant can read my resume and case studies and check my availability. No account, no auth, read-only.</p>
+      </header>
+      <div class="body">
+        <h2>Endpoint</h2>
+        <pre class="code">{endpoint}</pre>
+        <h2>Add it to your assistant</h2>
+        <ul>
+          <li><strong>Claude:</strong> Settings → Connectors → Add custom connector → paste the URL above. Then ask: "What has Wafa shipped?"</li>
+          <li><strong>ChatGPT:</strong> Settings → Apps &amp; Connectors → developer mode → create a connector with the URL.</li>
+          <li><strong>Cursor or any MCP client:</strong> add a streamable-HTTP server with the URL and run <code>tools/list</code>.</li>
+        </ul>
+        <h2>Tools</h2>
+        <ul>
+          <li><code>get_resume</code> — the full machine-readable resume (same data as <a href="/resume.json">/resume.json</a>)</li>
+          <li><code>get_case_studies</code> — the four case studies: problem, what I did, outcome, stack</li>
+          <li><code>check_availability</code> — current status, start date, locations, roles</li>
+          <li><code>get_contact</code> — how to reach me</li>
+        </ul>
+        <h2>Prefer plain HTTP?</h2>
+        <p><code>GET /resume.json</code> returns the resume. <code>GET /llms.txt</code> returns a plain-text summary written for language models. <code>AGENTS.md</code> at the site root tells an agent how to act on my behalf.</p>
+        <h2>Try it from a terminal</h2>
+        <pre class="code">{`curl -s -X POST ${endpoint} \\
+  -H 'content-type: application/json' \\
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'`}</pre>
+        <h2>How it's built</h2>
+        <p>A single Astro API route deployed as a Vercel function. It implements the stateless subset of MCP's Streamable HTTP transport over JSON-RPC: <code>initialize</code>, <code>tools/list</code> and <code>tools/call</code>, with CORS enabled. About 150 lines of TypeScript, no external MCP library, so the protocol handling is readable end to end in the <a href={profile.links.github} rel="noopener" target="_blank">repository</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>

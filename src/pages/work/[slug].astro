@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { profile } from '../../data/profile';
+
+export async function getStaticPaths() {
+  const work = await getCollection('work');
+  return work.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const all = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const i = all.findIndex((w) => w.id === entry.id);
+const next = all[(i + 1) % all.length];
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.summary,
+  author: { '@type': 'Person', name: profile.name, url: profile.site },
+  about: entry.data.stack,
+};
+---
+<Base title={`${entry.data.title} — Wafa Abbassi`} description={entry.data.summary} jsonLd={ld}>
+  <article class="article">
+    <div class="container">
+      <header>
+        <p class="context">{entry.data.context} · {entry.data.period} · {entry.data.role}</p>
+        <h1>{entry.data.title}</h1>
+        <p class="summary">{entry.data.summary}</p>
+        <div class="tags">{entry.data.stack.map((t) => <span class="tag">{t}</span>)}</div>
+      </header>
+      <div class="case" style="margin-bottom:28px">
+        <dl style="grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+          <div><dt>Problem</dt><dd>{entry.data.problem}</dd></div>
+          <div><dt>What I did</dt><dd>{entry.data.didWhat}</dd></div>
+          <div><dt>Outcome</dt><dd>{entry.data.outcome}</dd></div>
+        </dl>
+      </div>
+      <div class="body"><Content /></div>
+      <aside>
+        <a href="/work">← All case studies</a>
+        {next && next.id !== entry.id && <a href={`/work/${next.id}/`}>Next: {next.data.title} →</a>}
+      </aside>
+    </div>
+  </article>
+</Base>

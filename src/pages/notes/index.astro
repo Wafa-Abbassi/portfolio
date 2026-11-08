@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const notes = (await getCollection('notes')).filter((n) => !n.data.draft).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+<Base title="Notes — Wafa Abbassi" description="Writing on platform work, internal tooling, and AI-assisted engineering.">
+  <section class="article" style="border-top:0">
+    <div class="container">
+      <header><p class="context">Notes</p><h1>Writing</h1><p class="summary">Short, practical posts on platforms, tooling and working with AI, written from things I've shipped.</p></header>
+      <div class="grid-3">
+        {notes.map((n) => (
+          <article class="card">
+            <span class="meta">{fmt(n.data.date)}{n.data.readingTime ? ` · ${n.data.readingTime}` : ''}</span>
+            <h3><a href={`/notes/${n.id}/`}>{n.data.title}</a></h3>
+            <p>{n.data.description}</p>
+            <div class="tags">{n.data.tags.map((t) => <span class="tag">#{t}</span>)}</div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

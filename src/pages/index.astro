@@ -1,0 +1,180 @@
+---
+import Base from '../layouts/Base.astro';
+import Ticker from '../components/Ticker.astro';
+import Counter from '../components/islands/Counter';
+import { getCollection } from 'astro:content';
+import { profile } from '../data/profile';
+
+const work = (await getCollection('work')).filter((w) => w.data.featured).sort((a, b) => a.data.order - b.data.order);
+const notes = (await getCollection('notes')).filter((n) => !n.data.draft).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: profile.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base>
+  <Ticker />
+
+  <section class="hero" id="top" style="border-top:0">
+    <div class="hero-glow" aria-hidden="true"><span></span><span></span></div>
+    <div class="container">
+      <p class="eyebrow">// {profile.title} · Frontend &amp; Full-Stack · The Netherlands</p>
+      <h1>I build the systems <em>other teams depend on</em>.</h1>
+      <p class="lede">{profile.lede}</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/work">See my work</a>
+        <a class="btn" href={`mailto:${profile.email}`}>Get in touch</a>
+        <a class="btn" href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>
+      </div>
+      <p class="meta-row">
+        <span><span class="dot">●</span> Open to senior frontend / full-stack roles</span>
+        <span><span class="dot">●</span> {profile.availability.location}</span>
+      </p>
+      <div class="stats" aria-label="At a glance">
+        {profile.stats.map((s) => <Counter client:visible value={s.value} suffix={s.suffix} label={s.label} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container reveal">
+      <div class="section-head"><span class="index">01</span><h2>About</h2></div>
+      <div class="prose">
+        <p><strong>What I enjoy most is platform work:</strong> the systems, tooling and shared code where reliability, compliance and developer experience matter more than visible features. That's where I've spent most of my career, and where I do my best work.</p>
+        <p>I believe in fixing problems at the source rather than where they surface. If a mistake can slip through, I build the check that makes it impossible. If a decision keeps resurfacing, I write it down so the next person can build on it. I hold internal tools to the same standard as a public product: clear contracts, tests, documentation, and an experience other engineers enjoy using.</p>
+        <p>My home is the frontend, where React and TypeScript are second nature, but I've never treated the stack boundary as a wall. I've shipped in Vue, Node, PHP, Java and Python when the problem lived there, and I get productive quickly in a new codebase and domain. Teams tend to borrow me when something needs to land fast with people they trust.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="container">
+      <div class="section-head reveal"><span class="index">02</span><h2>Selected work</h2><a class="more" href="/work">All case studies →</a></div>
+      <div class="cases">
+        {work.map((w) => (
+          <article class="case reveal">
+            <div>
+              <p class="context">{w.data.context}</p>
+              <h3><a href={`/work/${w.id}/`}>{w.data.title}</a></h3>
+              <p>{w.data.summary}</p>
+              <p><a href={`/work/${w.id}/`}>Read the case study →</a></p>
+            </div>
+            <dl>
+              <div><dt>Problem</dt><dd>{w.data.problem}</dd></div>
+              <div><dt>What I did</dt><dd>{w.data.didWhat}</dd></div>
+              <div><dt>Outcome</dt><dd>{w.data.outcome}</dd></div>
+              <div><dt>Stack</dt><dd><span class="tags">{w.data.stack.map((t) => <span class="tag">{t}</span>)}</span></dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="ai">
+    <div class="container">
+      <div class="section-head reveal"><span class="index">03</span><h2>How I work with AI</h2><p>Fast, and I own what I ship.</p></div>
+      <div class="ai-grid">
+        <div class="ai-card reveal">
+          <h3>Agentic development, with the bar where it was</h3>
+          <p>Claude Code and Cursor are part of my daily workflow: I use them to scaffold features, write and extend tests, explore unfamiliar parts of a codebase, draft migrations and refactor safely. The speed is real, but the discipline matters more: every generated change goes through the same layered checks as my own code, which means tests, quality gates and a targeted read of the diff before anything is merged. I can tell when the output is wrong, and I treat the model as a very fast colleague whose work I review, not as an author I trust blindly.</p>
+          <p>At Angi I worked with <strong>Angi Crew</strong>, the company's internal library of Claude Code skills: reusable, versioned agent instructions that encode team conventions, from how a feature is scaffolded and tested to how a merge request is prepared and reviewed. I adopted them within days of joining a new team, used them to maintain delivery speed across an unfamiliar TypeScript and Java codebase, and fed back what worked and what didn't so the skills improved for everyone.</p>
+          <div class="tags" style="margin-top:14px">
+            {['Claude Code', 'Cursor', 'Agent skills', 'LLM evaluation', 'A/A testing', 'Prompt & context design', 'MCP'].map((t) => <span class="tag tag--accent">{t}</span>)}
+          </div>
+        </div>
+        <div class="ai-card reveal">
+          <h3>Building with LLMs, not only alongside them</h3>
+          <ul>
+            <li><strong>Model migration in production:</strong> moved an LLM-powered assistant to a new model version behind an A/A test, with a Split.io selector, analytics arm and sticky-cookie routing so rollback was instant and measurable.</li>
+            <li><strong>Resilient streaming UX:</strong> partial responses with resume, so a slow or interrupted model call never left the user stranded.</li>
+            <li><strong>Safety and ownership:</strong> enforced session-to-conversation ownership on the backend before scaling the feature.</li>
+            <li><strong>Enrichment pipelines:</strong> designed how model outputs map to funnel steps and how photos and availability data are hydrated into leads, across TypeScript and Java services.</li>
+            <li><strong>Evaluation mindset:</strong> wrote the test plan that defined what "the new model is at least as good" meant before anyone shipped it.</li>
+            <li><strong>This site is agent-ready:</strong> it publishes <a href="/resume.json">resume.json</a>, <a href="/llms.txt">llms.txt</a> and an <a href="/connect">MCP endpoint</a> any assistant can call.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="container">
+      <div class="section-head reveal"><span class="index">04</span><h2>Notes</h2><p>Writing on platforms, tooling and AI-assisted engineering.</p><a class="more" href="/notes">All notes →</a></div>
+      <div class="grid-3">
+        {notes.map((n) => (
+          <article class="card reveal">
+            <span class="meta">{fmt(n.data.date)}{n.data.readingTime ? ` · ${n.data.readingTime}` : ''}</span>
+            <h3><a href={`/notes/${n.id}/`}>{n.data.title}</a></h3>
+            <p>{n.data.description}</p>
+            <div class="tags">{n.data.tags.map((t) => <span class="tag">#{t}</span>)}</div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <div class="section-head reveal"><span class="index">05</span><h2>Side projects</h2><p>Same app, three frameworks.</p></div>
+      <div class="grid-3">
+        <article class="card reveal"><span class="status">in progress</span><h3>Notify — Angular</h3><p>A notification-preferences and inbox app with standalone components, signals, reactive forms and a lazy-loaded router. Angular Testing Library and Playwright; CI on GitHub Actions.</p><span class="meta">code · demo coming soon</span></article>
+        <article class="card reveal"><span class="status">in progress</span><h3>Notify — Vue 3</h3><p>The same app in Vue 3 with the Composition API, Pinia, Vue Router and VeeValidate. Vitest and Vue Test Utils for components, Playwright for the happy path.</p><span class="meta">code · demo coming soon</span></article>
+        <article class="card reveal"><span class="status">planned</span><h3>Notify — React</h3><p>The reference implementation, and a write-up of what changed between the three: state, forms, routing, testing, and what each framework's conventions push you towards.</p><span class="meta">write-up coming soon</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <div class="section-head reveal"><span class="index">06</span><h2>Skills</h2></div>
+      <div class="grid-2">
+        {profile.skills.map((g) => (
+          <div class="card skill-group reveal"><h3>{g.group}</h3><p>{g.items.join(', ')}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <div class="section-head reveal"><span class="index">07</span><h2>Experience</h2></div>
+      <ol class="timeline reveal">
+        <li><time>2020 — 2027</time><div><h3>Software Engineer, frontend &amp; full-stack · Instapro Group (Werkspot B.V., part of Angi Inc.), Amsterdam</h3><p>Multiple teams over six years: pro acquisition, Communication Architecture (founding member), Qualification &amp; Vetting, an international growth squad, and Angi's AI Helper.</p></div></li>
+        <li><time>2019 — 2020</time><div><h3>Front-End Developer (Mobile) · Yunify, Geleen</h3><p>Cross-platform React Native apps for an e-health scale-up building digital health and vitality programmes.</p></div></li>
+        <li><time>2015 — 2019</time><div><h3>Internships · Sousse, Tunisia</h3><p>Real-time advertising platform (React, Redux, TypeScript, GraphQL, Socket.io); leave-management app (Angular, Node, PostgreSQL); an expert-system project in Python; UX/UI design.</p></div></li>
+        <li><time>2013 — 2019</time><div><h3>Education</h3><p>Engineering degree in Software Engineering (master's level), EPI Sousse · Bachelor's in IT and Telecommunication Networks, ISITCom Sousse · ICPC certificate 2018</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="container">
+      <div class="section-head reveal"><span class="index">08</span><h2>Questions recruiters ask</h2></div>
+      <div class="faq reveal">
+        {profile.faq.map((f) => (
+          <details><summary>{f.q}</summary><p>{f.a}</p></details>
+        ))}
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqLd)}></script>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="contact-card reveal">
+        <span class="eyebrow">// contact</span>
+        <h2>Let's build something that lasts.</h2>
+        <p>I'm looking for a senior software engineering role in the Netherlands, frontend or full-stack, hybrid or remote, where I can own a domain long enough to solve its hard problems and help a team get the most out of AI-assisted development. {profile.availability.note}</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href={`mailto:${profile.email}`}>{profile.email}</a>
+          <a class="btn" href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>
+          <a class="btn" href="/connect">Connect your AI agent →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Work — Wafa Abbassi" description="Case studies: a multi-market notification platform, internal tooling and a legacy revival, trust and safety for a marketplace, and full-stack features for an LLM-powered product.">
+  <section class="article" style="border-top:0">
+    <div class="container">
+      <header><p class="context">Case studies</p><h1>Selected work</h1><p class="summary">Four pieces of work that show how I own a system: the problem, what I did, the outcome, and what I'd do differently.</p></header>
+      <div class="cases">
+        {work.map((w) => (
+          <article class="case">
+            <div>
+              <p class="context">{w.data.context} · {w.data.period}</p>
+              <h3><a href={`/work/${w.id}/`}>{w.data.title}</a></h3>
+              <p>{w.data.summary}</p>
+              <p><a href={`/work/${w.id}/`}>Read the case study →</a></p>
+            </div>
+            <dl>
+              <div><dt>Role</dt><dd>{w.data.role}</dd></div>
+              <div><dt>Outcome</dt><dd>{w.data.outcome}</dd></div>
+              <div><dt>Stack</dt><dd><span class="tags">{w.data.stack.map((t) => <span class="tag">{t}</span>)}</span></dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

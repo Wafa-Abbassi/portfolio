@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { profile } from '../../data/profile';
+
+export async function getStaticPaths() {
+  const notes = (await getCollection('notes')).filter((n) => !n.data.draft);
+  return notes.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.date.toISOString(),
+  author: { '@type': 'Person', name: profile.name, url: profile.site },
+  keywords: entry.data.tags.join(', '),
+};
+---
+<Base title={`${entry.data.title} — Wafa Abbassi`} description={entry.data.description} jsonLd={ld}>
+  <article class="article">
+    <div class="container">
+      <header>
+        <p class="context">{fmt(entry.data.date)}{entry.data.readingTime ? ` · ${entry.data.readingTime}` : ''}</p>
+        <h1>{entry.data.title}</h1>
+        <p class="summary">{entry.data.description}</p>
+        <div class="tags">{entry.data.tags.map((t) => <span class="tag">#{t}</span>)}</div>
+      </header>
+      <div class="body"><Content /></div>
+      <aside><a href="/notes">← All notes</a><a href="/#contact">Get in touch →</a></aside>
+    </div>
+  </article>
+</Base>

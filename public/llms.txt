@@ -1,0 +1,30 @@
+# Wafa Abbassi — Senior Software Engineer (frontend & full-stack), Amsterdam
+
+> Over six years building web products, mostly in React and TypeScript, increasingly across the full stack. Owned a multi-market notification platform, built internal tooling adopted across engineering, revived legacy codebases, delivered LLM-powered features end to end in TypeScript and Java, and uses AI-assisted development (Claude Code, Cursor) daily with every change verified before merge.
+
+## Availability
+- Open to senior frontend / full-stack / software engineering roles from 1 February 2027
+- Netherlands: hybrid anywhere in NL, or remote
+- Languages: English and French (full professional), Arabic (native), Dutch (working), German (basic)
+
+## Experience
+- 2020–2027 Instapro Group (Werkspot B.V., part of Angi Inc.), Amsterdam — Software Engineer, frontend & full-stack. Multiple teams: pro acquisition; Communication Architecture (founding member, owned the notification platform frontend for 7 markets / 6 brands); Qualification & Vetting (identity verification, fraud tooling, Snowplow schemas, PHP backend); international growth squad; Angi AI Helper (LLM features in TypeScript and Java).
+- 2019–2020 Yunify, Geleen — Front-End Developer (Mobile), React Native.
+- 2015–2019 Internships in Sousse, Tunisia (React/TypeScript/GraphQL platform; Angular/Node app; Python expert system; UX/UI).
+
+## Education
+- Engineering degree in Software Engineering (master's level), EPI Sousse, 2016–2019
+- Bachelor's in IT and Telecommunication Networks, ISITCom Sousse, 2013–2016
+
+## Skills
+React, TypeScript, Next.js, GraphQL, Vue, React Native, Node.js, PHP/Symfony, Java, Python, Storybook, Jest, Cypress, Playwright, Nx, Vite, Docker, Terraform, AWS, GitLab CI, Snowplow, Split.io, LaunchDarkly, Iterable, Postmark, accessibility, i18n, Claude Code, Cursor, MCP.
+
+## Machine-readable resources
+- Resume JSON: /resume.json
+- MCP endpoint (read-only tools): /api/mcp — see /connect
+- Case studies: /work
+- Notes: /notes
+
+## Contact
+- Email: abbassiiwafa04@gmail.com
+- LinkedIn: https://www.linkedin.com/in/wafa-abbassi-54355412a/

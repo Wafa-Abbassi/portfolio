@@ -1,0 +1,25 @@
+---
+const path = Astro.url.pathname;
+const links = [
+  { href: '/#about', label: 'About' },
+  { href: '/work', label: 'Work' },
+  { href: '/#ai', label: 'AI' },
+  { href: '/notes', label: 'Notes' },
+  { href: '/#skills', label: 'Skills' },
+  { href: '/#faq', label: 'FAQ' },
+  { href: '/#contact', label: 'Contact' },
+];
+const isCurrent = (href: string) => href !== '/' && !href.includes('#') && path.startsWith(href);
+---
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/" aria-label="Wafa Abbassi, home">wafa<span>.</span>abbassi</a>
+    <nav class="nav" data-nav aria-label="Primary">
+      {links.map((l) => <a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to light theme">☀</button>
+      <button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://wafaabbassi.dev/sitemap-index.xml
