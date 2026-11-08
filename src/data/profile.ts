@@ -7,10 +7,10 @@ export const profile = {
   subtitle: 'Frontend & full-stack · AI-assisted engineering',
   location: 'Amsterdam, Netherlands',
   email: 'abbassiiwafa04@gmail.com',
-  site: 'https://wafaabbassi.dev',
+  site: 'https://portfolio-tan-two-89.vercel.app',
   links: {
     linkedin: 'https://www.linkedin.com/in/wafa-abbassi-54355412a/',
-    github: 'https://github.com/REPLACE_ME', // update once the account exists
+    github: 'https://github.com/Wafa-Abbassi',
   },
   availability: {
     status: 'open',
@@ -50,7 +50,7 @@ export const profile = {
     { group: 'Testing & tooling', items: ['Jest', 'React Testing Library', 'Cypress', 'Visual regression', 'Playwright', 'ESLint', 'Nx', 'pnpm', 'Vite', 'Webpack', 'GitLab CI', 'GitHub Actions'] },
     { group: 'Backend & infrastructure', items: ['Node.js / Express', 'PHP / Symfony', 'Java', 'Python', 'REST', 'GraphQL APIs', 'Docker', 'Terraform', 'AWS (SNS)', 'Nginx'] },
     { group: 'Data, experimentation & messaging', items: ['Snowplow / Iglu', 'Split.io', 'LaunchDarkly', 'A/B & A/A testing', 'Sentry', 'OpenTelemetry', 'Iterable', 'Postmark', 'Email deliverability & compliance'] },
-    { group: 'AI-assisted engineering', items: ['Claude Code', 'Cursor', 'Agent skills (Angi Crew)', 'Prompt & context design', 'Verifying generated code', 'LLM feature delivery', 'A/A model testing'] },
+    { group: 'AI-assisted engineering', items: ['Claude Code', 'Cursor', 'Internal agent skills', 'Prompt & context design', 'Verifying generated code', 'LLM feature delivery', 'A/A model testing'] },
     { group: 'Ways of working', items: ['Platform ownership', 'Technical writing', 'Decision records', 'Vendor evaluations', 'On-call', 'Onboarding & coaching', 'Cross-time-zone collaboration'] },
   ],
   faq: [
