@@ -7,7 +7,7 @@ export const profile = {
   subtitle: 'Frontend & full-stack · AI-assisted engineering',
   location: 'Amsterdam, Netherlands',
   email: 'abbassiiwafa04@gmail.com',
-  site: 'https://portfolio-tan-two-89.vercel.app',
+  site: 'https://wafa-abbassi.vercel.app',
   links: {
     linkedin: 'https://www.linkedin.com/in/wafa-abbassi-54355412a/',
     github: 'https://github.com/Wafa-Abbassi',

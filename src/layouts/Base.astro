@@ -4,6 +4,7 @@ import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { profile } from '../data/profile';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title?: string;
@@ -64,6 +65,7 @@ const personLd = {
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd ?? personLd)}></script>
     <ClientRouter />
+    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
